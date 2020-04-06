@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Dao.book.BookMapper">
+	<!-- 查询所有图书信息 -->
+	<select id="getList" resultMap="blist">
+		SELECT * FROM book ORDER BY id DESC
+	</select>
+	<resultMap type="Book" id="blist"></resultMap>
+	<!-- 添加 -->
+	<insert id="Add" parameterType="Book">
+		INSERT INTO book(`Name`,Author,publish,publishdate,Page,Price,Content)
+			VALUES(#{name},#{author},#{publish},#{publishdate},#{page},#{price},#{content})
+	</insert>
+	<!--删除  -->
+	<delete id="deleteByid" >
+		DELETE FROM book WHERE id=#{id}
+	</delete>
+	<!-- 查找 -->
+	<select id="findByid" resultMap="blist">
+		SELECT * FROM book where id=#{id}
+	</select>
+	<!--修改  -->
+	<update id="saveByid" parameterType="Book" >
+		UPDATE book SET `Name`=#{name},Author=#{author},publish=#{publish},Page=#{page},Price=#{price},Content=#{content}
+		 WHERE id=#{id}
+	</update>
+	<!-- 数据总条数 -->
+	<select id="getCount" resultType="Integer">
+		select count(1) from book
+	</select>
+	<!-- 获得分页数据 -->
+	<select id="getpageLists" resultMap="blist">
+		select * from book limit #{start},#{pageSize}
+	</select>
+</mapper>
